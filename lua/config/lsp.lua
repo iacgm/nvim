@@ -4,23 +4,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local opts = {buffer = event.buf}
 
     vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, opts)
     vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
-    vim.keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
-    vim.keymap.set('n', '<leader>vd', function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, opts)
-    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, opts)
-    vim.keymap.set('n', '<leader>gra', function() vim.lsp.buf.code_action() end, opts)
-    vim.keymap.set('n', '<leader>grr', function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set('n', '<leader>grn', function() vim.lsp.buf.rename() end, opts)
-    vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
+    vim.keymap.set('n', '<leader>r', function() vim.lsp.buf.rename() end, opts)
+    vim.keymap.set('n', '<leader>a', function() vim.lsp.buf.code_action() end, opts)
+    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
+    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
   end,
 })
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+require('lspconfig').hls.setup({})
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'rust_analyzer'},
+  ensure_installed = {
+		'rust_analyzer',
+		'hls'
+	},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({
@@ -50,6 +52,22 @@ require('mason-lspconfig').setup({
   }
 })
 
+
+local _border = "single"
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover, {
+    border = _border
+  }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help, {
+    border = _border
+  }
+)
+
 vim.diagnostic.config({
+  float={border=_border},
   virtual_text = true,
 })

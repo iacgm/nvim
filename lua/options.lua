@@ -34,5 +34,7 @@ o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldlevel = 99
 o.autoread = true
 o.tabstop = 2
+o.shiftwidth = 2
 o.lazyredraw = true
 
+o.autowriteall = true

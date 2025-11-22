@@ -1,7 +1,3 @@
--- You can add your own plugins here or in other files in this directory!
---  I promise not to create any merge conflicts in this directory :)
---
--- See the kickstart.nvim README for more information
 return {
   {
     "mason-org/mason.nvim",
@@ -16,6 +12,13 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      ui = {
+        windows = {
+          default_options = {
+            border = "rounded",
+          },
+        },
+      },
       inlay_hints = {
         enabled = true,
       },
@@ -45,20 +48,20 @@ return {
       'nvim-tree/nvim-web-devicons',
     },
     config = function()
-      vim.api.nvim_create_autocmd("BufEnter", {
-        nested = true,
-        callback = function()
-          if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
-            vim.cmd "quit"
-          end
-        end
-      })
-
       require('nvim-tree').setup {
         view = {
           side = 'right',
         },
       }
+
+      vim.api.nvim_create_autocmd("BufEnter", {
+        group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
+        pattern = "NvimTree_*",
+        callback = function()
+          local layout = vim.api.nvim_call_function("winlayout", {})
+          if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("confirm quit") end
+        end
+      })
     end,
   },
   {
@@ -88,21 +91,6 @@ return {
         sources = { { name = 'crates' } },
       }
     end,
-  },
-  {
-    'stevearc/conform.nvim',
-    opts = {},
-    config = function()
-      require("conform").setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          -- Conform will run multiple formatters sequentially
-          python = { "isort", "black" },
-          -- You can customize some of the format options for the filetype (:help conform.format)
-          rust = { "rustfmt", lsp_format = "fallback" },
-        },
-      })
-    end
   },
   {
     'hrsh7th/nvim-cmp',
@@ -188,11 +176,7 @@ return {
       port = 5600,
     },
   },
-  {
-    'anuvyklack/hydra.nvim',
-    lazy = false,
-  },
-  {
+ {
     'LintaoAmons/cd-project.nvim',
     lazy = false,
     config = function() 

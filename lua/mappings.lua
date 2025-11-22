@@ -6,59 +6,66 @@ map('i', 'jk', '<ESC>')
 vim.keymap.set('n', ',', ';')
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
+-- Better Redo
+vim.keymap.set('n', 'U', '<C-r>')
+
+-- Move line up or down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 vim.keymap.set('n', '<M-J>', '<Cmd>m+1<CR>')
 vim.keymap.set('n', '<M-K>', '<Cmd>m-2<CR>')
 
+-- Center after scrUp/scrDown
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
-vim.keymap.set('n', 'n', 'nzzzv')
-vim.keymap.set('n', 'N', 'Nzzzv')
+-- (quasi)-Helix-like selection
+vim.keymap.set('n', 'x', 'V')
+vim.keymap.set('v', 'X', 'k')
+vim.keymap.set('v', 'x', 'j')
+
+-- X to delete
+vim.keymap.set('n', 'X', 'x')
+
+-- IIRC, this centers search results
 vim.keymap.set('c', '<CR>', function()
   return vim.fn.getcmdtype() == '/' and '<CR>zzzv' or '<CR>'
 end, { expr = true })
 
+-- Line wrapping
 vim.keymap.set({ 'n', 'v' }, 'j', 'gj')
 vim.keymap.set({ 'n', 'v' }, 'gj', 'j')
-vim.keymap.set('i', '<C-j>', '<C-o>gj')
-vim.keymap.set('n', '<C-o>', '<C-o>zz')
-
 vim.keymap.set({ 'n', 'v' }, 'k', 'gk')
 vim.keymap.set({ 'n', 'v' }, 'gk', 'k')
-vim.keymap.set('i', '<C-k>', '<C-o>gk')
+
+-- Center after jumps
+vim.keymap.set('n', '<C-o>', '<C-o>zz')
 vim.keymap.set('n', '<C-i>', '<C-i>zz')
 
+-- Set diagnostics across files, then jump between them
+vim.keymap.set({ 'n', 'v' }, '<M-d>', vim.diagnostic.setqflist, { desc = 'Open diagnostics in Quickfix' })
 vim.keymap.set({ 'n', 'v' }, '<M-j>', '<cmd>cnext<CR>zz')
 vim.keymap.set({ 'n', 'v' }, '<M-k>', '<cmd>cprev<CR>zz')
-vim.keymap.set({ 'n', 'v' }, '<M-d>', vim.diagnostic.setqflist, { desc = 'Open diagnostics in Quickfix' })
 
+-- Only yank to system clipboard after leader
 vim.opt.clipboard = ''
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
 vim.keymap.set({ 'n', 'v' }, '<leader>Y', [["+Y]])
+
+-- Deleting doesn't yank (X can be used instead)
 vim.keymap.set({ 'n', 'v' }, 'd', [["_d]])
-vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]])
-vim.keymap.set({ 'n', 'v' }, 'dd', [["_dd]])
-vim.keymap.set({ 'n', 'v' }, 'dd', [["_dd]])
+vim.keymap.set({ 'n', }, 'dd', [["_dd]])
 
-vim.keymap.set({ 'n', 'v', 'i' }, '<C-s>', '<cmd>w<CR>')
+vim.keymap.set({ 'n', 'v', 'i' }, '<C-s>', '<cmd>wa<CR>')
 
--- Paste without copying
-vim.keymap.set('x', '<leader>P', [["_dP]])
-vim.keymap.set({ 'n', 'x' }, '<leader>p', [["+p]])
-
-vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
-
-vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz')
-vim.keymap.set('n', '<C-j>', '<cmd>cprev<CR>zz')
-vim.keymap.set('n', '<leader>k', '<cmd>lnext<CR>zz')
-vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
+-- Paste-replace without copying
+vim.keymap.set('x', 'p', [["_dp]])
+vim.keymap.set('x', 'P', [["_dP]])
 
 map("n", "<Leader>tkm", "<cmd>lua vim.cmd('Telescope keymaps')<CR>")
 
 -- Projects:
-vim.keymap.set('n', '<leader>cd', '<cmd>CdProject<CR>')
+vim.keymap.set('n', 'cd', '<cmd>CdProject<CR>')
 
 -- Tree
 map('n', '<C-n>', '<cmd>NvimTreeToggle<CR>', { desc = 'nvimtree toggle window' })
@@ -66,4 +73,3 @@ map('n', '<leader>e', '<cmd>NvimTreeFocus<CR>', { desc = 'nvimtree focus window'
 
 -- Leap
 map({ 'n', 'x', 'o' }, 'f', '<Plug>(leap)')
-map({ 'n', 'x', 'o' }, '<leader>f', 'f')
