@@ -2,26 +2,33 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('user_lsp_attach', {clear = true}),
   callback = function(event)
     local opts = {buffer = event.buf}
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		print("LSP connected: " .. client.name)
 
     vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set('n', '<leader>r', function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set('n', '<leader>a', function() vim.lsp.buf.code_action() end, opts)
     vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
     vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
+		-- Display diagnostic or additional info
+    vim.keymap.set('n', 'K', function()
+			if not vim.diagnostic.open_float() then
+				vim.lsp.buf.hover()
+			end
+		end, opts)
+    vim.keymap.set('n', '<leader>K', function() vim.lsp.buf.hover() end, opts)
+
+    
   end,
 })
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require('lspconfig').hls.setup({})
-
 require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = {
-		'rust_analyzer',
-		'hls'
+		'rust_analyzer'
 	},
   handlers = {
     function(server_name)

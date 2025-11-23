@@ -27,11 +27,6 @@ vim.keymap.set('v', 'x', 'j')
 -- X to delete
 vim.keymap.set('n', 'X', 'x')
 
--- IIRC, this centers search results
-vim.keymap.set('c', '<CR>', function()
-  return vim.fn.getcmdtype() == '/' and '<CR>zzzv' or '<CR>'
-end, { expr = true })
-
 -- Line wrapping
 vim.keymap.set({ 'n', 'v' }, 'j', 'gj')
 vim.keymap.set({ 'n', 'v' }, 'gj', 'j')
