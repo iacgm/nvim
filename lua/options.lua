@@ -8,6 +8,7 @@ local delim = is_windows and ";" or ":"
 vim.env.PATH = table.concat({ vim.fn.stdpath "data", "mason", "bin" }, sep) .. delim .. vim.env.PATH
 
 --Line numbers
+o.winborder = 'rounded'
 o.number = true
 o.numberwidth = 2
 o.ruler = false

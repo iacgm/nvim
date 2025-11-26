@@ -33,16 +33,6 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    ---@module "ibl"
-    ---@type ibl.config
-    opts = {},
-    config = function()
-      require("ibl").setup()
-    end
-  },
-  {
     'nvim-tree/nvim-tree.lua',
     cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
     dependencies = {
@@ -177,7 +167,7 @@ return {
 	{
     'LintaoAmons/cd-project.nvim',
     lazy = false,
-    config = function() 
+    config = function()
       require("cd-project").setup({
 				projects_picker = "telescope",
         hooks = {
@@ -190,6 +180,10 @@ return {
       })
     end
   },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+	},
   {
     'EdenEast/nightfox.nvim',
   },

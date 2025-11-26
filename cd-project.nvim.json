@@ -1,24 +1,24 @@
 [
   {
     "id": "20251124121645_7289",
-    "last_file": "lua/plugin_maps.lua",
+    "last_file": "lua/config/lsp.lua",
     "last_position": [
-      13,
-      2
+      61,
+      0
     ],
     "name": "nvim",
     "path": "/Users/ian.martinez/.config/nvim",
-    "visited_at": 1764188521
+    "visited_at": 1764190375
   },
   {
     "id": "20251124120739_8147",
-    "last_file": "pyrightconfig.json",
+    "last_file": "signals/tests/signals/resolvers/signals/downpayment/aa/cbo/test_anywhere_dedicated_cbo_dp_requirements.py",
     "last_position": [
       1,
-      1
+      0
     ],
     "name": "all-the-things",
     "path": "/Users/ian.martinez/work_space/all-the-things",
-    "visited_at": 1764188499
+    "visited_at": 1764189765
   }
 ]
