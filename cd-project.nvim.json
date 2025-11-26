@@ -1,1 +1,24 @@
-[{"name": "nvim", "path": "C:\\Users\\Iangr\\AppData\\Local\\nvim"}, {"name": "Desktop", "path": "C:\\Users\\Iangr\\Desktop"}, {"name": "BSP", "path": "C:\\Users\\Iangr\\Desktop\\Oxford\\BSP\\kolmogorov"}, {"name": "BSP Report", "path": "C:\\Users\\Iangr\\Desktop\\Oxford\\BSP\\report"}, {"name": "nurikabe", "path": "C:\\Users\\Iangr\\Desktop\\Lab\\Rust\\nurikabe"}, {"name": "PartC", "path": "C:\\Users\\Iangr\\Desktop\\Oxford\\PartC"}, {"name": "c2bf", "path": "C:\\Users\\Iangr\\Desktop\\Lab\\Rust\\c2bf"}, {"path": "C:\\Users\\Iangr\\Desktop\\Lab\\Haskell\\loglearn", "name": "loglearn"}]
+[
+  {
+    "id": "20251124121645_7289",
+    "last_file": "lua/plugin_maps.lua",
+    "last_position": [
+      13,
+      2
+    ],
+    "name": "nvim",
+    "path": "/Users/ian.martinez/.config/nvim",
+    "visited_at": 1764188521
+  },
+  {
+    "id": "20251124120739_8147",
+    "last_file": "pyrightconfig.json",
+    "last_position": [
+      1,
+      1
+    ],
+    "name": "all-the-things",
+    "path": "/Users/ian.martinez/work_space/all-the-things",
+    "visited_at": 1764188499
+  }
+]

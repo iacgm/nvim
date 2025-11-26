@@ -6,7 +6,8 @@ return {
       return require "config.mason"
     end,
   },
-  {
+	{ "folke/lazydev.nvim", opts = {} },
+	{
     "mason-org/mason-lspconfig.nvim",
   },
   {
@@ -65,18 +66,29 @@ return {
     end,
   },
   {
-    "nvim-telescope/telescope.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-      "nvim-treesitter/nvim-treesitter",
-    },
-    cmd = "Telescope",
-    opts = function()
-      return require "config.telescope"
-    end,
-  },
-  {
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"BurntSushi/ripgrep",
+			"nvim-lua/plenary.nvim",
+			'nvim-telescope/telescope-ui-select.nvim',
+			"nvim-treesitter/nvim-treesitter",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+			},
+		},
+		cmd = "Telescope",
+		opts = function()
+			return require "config.telescope"
+		end,
+		config = function(_, opts) 
+			require("telescope").setup(opts)
+			require("telescope").load_extension("fzf")
+		end
+
+
+	},
+	{
     'saecki/crates.nvim',
     ft = { 'toml' },
     config = function()
@@ -94,29 +106,15 @@ return {
   },
   {
     'hrsh7th/nvim-cmp',
+		dependencies = {
+			'neovim/nvim-lspconfig',
+			'hrsh7th/cmp-nvim-lsp',
+			'hrsh7th/cmp-nvim-lsp-signature-help',
+			'hrsh7th/cmp-buffer',
+			'L3MON4D3/LuaSnip',
+		},
     config = function()
       require "config.cmp"
-    end
-  },
-  {
-    'hrsh7th/cmp-vsnip',
-  },
-  {
-    'hrsh7th/vim-vsnip'
-  },
-  {
-    'hrsh7th/cmp-path',
-  },
-  {
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-  },
-  {
-    'hrsh7th/cmp-nvim-lsp',
-    lazy = false,
-    config = function() 
-      require("cmp").setup.buffer {
-       sources = { name = 'nvim_lsp' }
-      }
     end
   },
   {
@@ -176,16 +174,16 @@ return {
       port = 5600,
     },
   },
- {
+	{
     'LintaoAmons/cd-project.nvim',
     lazy = false,
     config = function() 
       require("cd-project").setup({
-        projects_picker = "telescope",
+				projects_picker = "telescope",
         hooks = {
           {
             callback = function(_)
-              vim.cmd("Telescope find_files")
+							vim.cmd("Telescope find_files")
             end,
           }
         }
@@ -215,5 +213,4 @@ return {
       require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
   },
-
 }

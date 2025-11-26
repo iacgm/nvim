@@ -3,7 +3,6 @@ local g = vim.g
 g.floaterm_width = 0.9
 g.floaterm_height = 0.9
 
-
 local toggle_modes = {'n', 't'}
 local mappings = {
   { toggle_modes, '<M-i>', "<cmd>wa<cr><cmd>FloatermToggle<CR>", },

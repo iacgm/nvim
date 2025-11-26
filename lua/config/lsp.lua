@@ -3,12 +3,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
     local opts = {buffer = event.buf}
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
-		print("LSP connected: " .. client.name)
 
     vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set('n', '<leader>r', function() vim.lsp.buf.rename() end, opts)
+    vim.keymap.set('n', '<C-r>', function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set('n', '<leader>a', function() vim.lsp.buf.code_action() end, opts)
+		vim.keymap.set('n', '<C-F>', function() vim.lsp.buf.format({ async = true }) end)
     vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
     vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
 		-- Display diagnostic or additional info
@@ -18,7 +18,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 			end
 		end, opts)
     vim.keymap.set('n', '<leader>K', function() vim.lsp.buf.hover() end, opts)
-
     
   end,
 })

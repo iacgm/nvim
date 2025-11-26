@@ -19,15 +19,35 @@ map("n", "<C-s>", "<cmd>wa<CR>", { desc = "general save file" })
 
 map("n", "<C-c>", "gcc", { desc = "toggle comment", remap = true })
 
-map("n", "<leader>d", "<cmd>Telescope diagnostics<cr>", { desc = "telescope diagnostics" })
-map("n", "<leader>/", "<cmd>Telescope live_grep<cr>", { desc = "telescope live_grep" })
-map("n", "<leader>o", "<cmd>Telescope oldfiles<cr>", { desc = "telescope oldfiles" })
-map("n", "<leader>c", "<cmd>Telescope resume<cr>", { desc = "telescope resume" })
-map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "telescope find buffers" })
-map("n", "<leader>f", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
-map(
-  "n",
-  "<leader>F",
-  "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-  { desc = "telescope find all files" }
+local function get_search_dirs()
+	local curr = vim.g.search_dirs
+	if curr == nil then curr = "" end
+	local search_dirs = {}
+	for dir in string.gmatch(curr, "[^,]+") do
+		table.insert(search_dirs, dir)
+	end
+	return search_dirs
+end
+
+local function set_search_dirs()
+	local curr = vim.g.search_dirs
+	if curr == nil then curr = "" end
+	vim.g.search_dirs = vim.fn.input("Search Directory:", curr, "dir")
+end
+
+map("n", "<leader>cd", set_search_dirs, { desc = "Set search directory" })
+
+map("n", "<leader>tkm", "<cmd>Telescope keymaps<cr>", { desc = "Search keymaps" })
+map("n", "<leader>d", "<cmd>Telescope diagnostics<cr>", { desc = "Search diagnostics" })
+map("n", "<leader>o", "<cmd>Telescope oldfiles<cr>", { desc = "Search oldfiles" })
+map("n", "<leader>r", "<cmd>Telescope resume<cr>", { desc = "Search resume" })
+map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "Search find buffers" })
+
+map("n", "<leader>/", function() require("telescope.builtin").live_grep({search_dirs = get_search_dirs()}) end, { desc = "Search live_grep" })
+map("n", "<leader>f",
+	function()
+		require("telescope.builtin").find_files({ search_dirs = get_search_dirs() })
+	end,
+	{ desc = "Search find files" }
 )
+

@@ -1,10 +1,9 @@
 local map = vim.keymap.set
 
-map({ 'n', 'v', 'i' }, '<C-[>', '<Esc>')
-map('i', 'jk', '<ESC>')
+map("t", "<C-k>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+map({ 'i', 'v' }, 'jk', '<ESC>')
 
 vim.keymap.set('n', ',', ';')
-map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
 -- Better Redo
 vim.keymap.set('n', 'U', '<C-r>')
@@ -57,7 +56,6 @@ vim.keymap.set({ 'n', 'v', 'i' }, '<C-s>', '<cmd>wa<CR>')
 vim.keymap.set('x', 'p', [["_dp]])
 vim.keymap.set('x', 'P', [["_dP]])
 
-map("n", "<Leader>tkm", "<cmd>lua vim.cmd('Telescope keymaps')<CR>")
 
 -- Projects:
 vim.keymap.set('n', 'cd', '<cmd>CdProject<CR>')

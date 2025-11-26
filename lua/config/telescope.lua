@@ -1,5 +1,9 @@
 return {
   defaults = {
+		path_display = {
+			"filename_first",
+			"smart",
+		},
     prompt_prefix = "   ",
     selection_caret = " ",
     entry_prefix = " ",
@@ -14,6 +18,6 @@ return {
     },
   },
 
-  extensions_list = { "themes", "terms" },
+  extensions_list = { "fzf", "themes", "terms" },
   extensions = {},
 }

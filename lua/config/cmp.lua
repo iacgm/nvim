@@ -1,9 +1,9 @@
 local cmp = require("cmp")
-	
+
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+			require('luasnip').lsp_expand(args.body)
 		end,
 	},
 	window = {
@@ -13,18 +13,15 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert({
 		['<C-b>'] = cmp.mapping.scroll_docs(-4),
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<Tab>'] = cmp.mapping.confirm(),
+		['<C-Space>'] = cmp.mapping.complete(),
+		['<Tab>'] = cmp.mapping.confirm({select=true}),
 		['<C-e>'] = cmp.mapping.abort(),
 	}),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
-	}, {
+		{ name = 'luasnip' },
 		{ name = 'buffer' },
-	}, {
 		{ name = 'path' },
-	}, {
-		{ name = 'vsnip' },
-	}, {
 		{ name = 'nvim_lsp_signature_help' }
 	})
 })
