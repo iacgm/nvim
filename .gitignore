@@ -2,5 +2,5 @@ tags
 test.sh
 .luarc.json
 nvim
-cd-project.nvim.json
+cd-project.vim.json
 spell/
