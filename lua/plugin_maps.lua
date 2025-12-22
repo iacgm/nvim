@@ -52,8 +52,6 @@ map("n", "<leader>gc", function()
 		base = vim.fn.trim(sys.stdout) .. "~1.. "
 	end
 	local c = Split_str("git log " .. base .. "--oneline", ' ')
-	vim.print(c)
-	vim.cmd.sleep("2")
 	require("telescope.builtin").git_commits({ git_command = c})
 end, { desc = "Search commits" })
 map("n", "<leader>gd", function()
