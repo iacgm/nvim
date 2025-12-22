@@ -1,6 +1,7 @@
 local map = vim.keymap.set
 
-map("t", "<C-k>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+map("t", "<C-k>", "<C-\\><C-N>", { desc = "Escape terminal mode" })
+map("t", "<C-u>", "<C-\\><C-u>", { desc = "Scroll up in terminal" })
 map({ 'i', 'v' }, 'jk', '<ESC>')
 
 vim.keymap.set('n', ',', ';')

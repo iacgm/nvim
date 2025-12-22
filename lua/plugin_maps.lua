@@ -19,14 +19,19 @@ map("n", "<C-s>", "<cmd>wa<CR>", { desc = "general save file" })
 
 map("n", "<C-c>", "gcc", { desc = "toggle comment", remap = true })
 
+-- Search subset of files by default
+function Split_str(s, pat)
+	local out = {}
+	for dir in string.gmatch(s, "[^" .. pat .. "]+") do
+		table.insert(out, dir)
+	end
+	return out
+end
+
 local function get_search_dirs()
 	local curr = vim.g.search_dirs
 	if curr == nil then curr = "" end
-	local search_dirs = {}
-	for dir in string.gmatch(curr, "[^,]+") do
-		table.insert(search_dirs, dir)
-	end
-	return search_dirs
+	return Split_str(curr, ",")
 end
 
 local function set_search_dirs()
@@ -37,17 +42,39 @@ end
 
 map("n", "<leader>cd", set_search_dirs, { desc = "Set search directory" })
 
+-- Other Telescope keymaps
+map("n", "<leader>gc", function()
+	local branch = vim.fn.trim(vim.fn.system("git branch --show-current"))
+	local bc = Split_str("git merge-base origin " .. branch, ' ')
+	local sys = vim.system(bc):wait()
+	local base = ""
+	if sys.code == 0 then
+		base = vim.fn.trim(sys.stdout) .. "~1.. "
+	end
+	local c = Split_str("git log " .. base .. "--oneline", ' ')
+	vim.print(c)
+	vim.cmd.sleep("2")
+	require("telescope.builtin").git_commits({ git_command = c})
+end, { desc = "Search commits" })
+map("n", "<leader>gd", function()
+	require("telescope.builtin").git_files({ git_command = { "git", "diff", "--name-only" } })
+end, { desc = "Search diff" })
+
+map("n", "<leader>gb", function()
+	require("telescope.builtin").git_branches({ show_remote_tracking_branches = false })
+end, { desc = "Search git branches" })
+
 map("n", "<leader>tkm", "<cmd>Telescope keymaps<cr>", { desc = "Search keymaps" })
 map("n", "<leader>d", "<cmd>Telescope diagnostics<cr>", { desc = "Search diagnostics" })
 map("n", "<leader>o", "<cmd>Telescope oldfiles<cr>", { desc = "Search oldfiles" })
 map("n", "<leader>r", "<cmd>Telescope resume<cr>", { desc = "Search resume" })
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "Search find buffers" })
 
-map("n", "<leader>/", function() require("telescope.builtin").live_grep({search_dirs = get_search_dirs()}) end, { desc = "Search live_grep" })
+map("n", "<leader>/", function() require("telescope.builtin").live_grep({ search_dirs = get_search_dirs() }) end,
+	{ desc = "Search live_grep" })
 map("n", "<leader>f",
 	function()
 		require("telescope.builtin").find_files({ search_dirs = get_search_dirs() })
 	end,
 	{ desc = "Search find files" }
 )
-
