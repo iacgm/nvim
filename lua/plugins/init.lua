@@ -6,7 +6,7 @@ return {
 			return require "config.mason"
 		end,
 	},
-	{ "folke/lazydev.nvim", opts = {} },
+	{ "folke/lazydev.nvim",    opts = {} },
 	{
 		"mason-org/mason-lspconfig.nvim",
 	},
@@ -31,30 +31,6 @@ return {
 	{
 		'nvim-lualine/lualine.nvim',
 		dependencies = { 'nvim-tree/nvim-web-devicons' },
-	},
-	{
-		'nvim-tree/nvim-tree.lua',
-		cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
-		dependencies = {
-			'nvim-tree/nvim-web-devicons',
-		},
-		config = function()
-			require('nvim-tree').setup {
-				view = {
-					side = 'right',
-				},
-			}
-
-			vim.api.nvim_create_autocmd("BufEnter", {
-				group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
-				pattern = "NvimTree_*",
-				callback = function()
-					local layout = vim.api.nvim_call_function("winlayout", {})
-					if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then
-						vim.cmd("confirm quit") end
-				end
-			})
-		end,
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -118,18 +94,18 @@ return {
 		dependencies = { 'nvim-treesitter/nvim-treesitter' },
 		config = function()
 			require('treesitter-context').setup {
-				enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
-				multiwindow = false,      -- Enable multiwindow support.
-				max_lines = 0,            -- How many lines the window should span. Values <= 0 mean no limit.
-				min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+				enable = true,        -- Enable this plugin (Can be enabled/disabled later via commands)
+				multiwindow = false,  -- Enable multiwindow support.
+				max_lines = 0,        -- How many lines the window should span. Values <= 0 mean no limit.
+				min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
 				line_numbers = true,
 				multiline_threshold = 20, -- Maximum number of lines to show for a single context
-				trim_scope = 'outer',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-				mode = 'cursor',          -- Line used to calculate context. Choices: 'cursor', 'topline'
+				trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+				mode = 'cursor',      -- Line used to calculate context. Choices: 'cursor', 'topline'
 				-- Separator between context and content. Should be a single character string, like '-'.
 				-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
 				separator = '-',
-				zindex = 20,     -- The Z-index of the context window
+				zindex = 20, -- The Z-index of the context window
 				on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 			}
 		end,
@@ -169,6 +145,7 @@ return {
 		'LintaoAmons/cd-project.nvim',
 		lazy = false,
 		config = function()
+			---@diagnostic disable-next-line: missing-fields
 			require("cd-project").setup({
 				projects_picker = "telescope",
 				hooks = {
@@ -211,7 +188,17 @@ return {
 			require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
 		end,
 	},
+	{ "sindrets/diffview.nvim" },
 	{
-		'akinsho/git-conflict.nvim'
+		"lewis6991/gitsigns.nvim",
+		opts = {
+			numhl = true,
+			current_line_blame = true,
+			current_line_blame_opts = {
+				delay = 0,
+				virt_text_pos = 'right_align',
+				virt_text_priority = 1000,
+			}
+		}
 	},
 }

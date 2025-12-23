@@ -42,8 +42,14 @@ end
 
 map("n", "<leader>cd", set_search_dirs, { desc = "Set search directory" })
 
--- Other Telescope keymaps
-map("n", "<leader>gc", function()
+-- Git keymaps
+
+---@diagnostic disable-next-line: param-type-mismatch
+map("n", "gsq", function() require("gitsigns").setqflist("all") end, { desc = "Set quickfix list to diffs" })
+map("n", "gsd", "<cmd>Gitsigns toggle_deleted<cr>", { desc = "Show deleted"})
+map("n", "gsb", "<cmd>Gitsigns blame_line<cr>", { desc = "Git blame line"} )
+map("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Git status"})
+map("n", "<leader>gh", function()
 	local branch = vim.fn.trim(vim.fn.system("git branch --show-current"))
 	local bc = Split_str("git merge-base origin " .. branch, ' ')
 	local sys = vim.system(bc):wait()
@@ -54,14 +60,16 @@ map("n", "<leader>gc", function()
 	local c = Split_str("git log " .. base .. "--oneline", ' ')
 	require("telescope.builtin").git_commits({ git_command = c})
 end, { desc = "Search commits" })
+
 map("n", "<leader>gd", function()
 	require("telescope.builtin").git_files({ git_command = { "git", "diff", "--name-only" } })
 end, { desc = "Search diff" })
 
-map("n", "<leader>gb", function()
+map("n", "<leader>gc", function()
 	require("telescope.builtin").git_branches({ show_remote_tracking_branches = false })
 end, { desc = "Search git branches" })
 
+-- Other Telescope keymaps
 map("n", "<leader>tkm", "<cmd>Telescope keymaps<cr>", { desc = "Search keymaps" })
 map("n", "<leader>d", "<cmd>Telescope diagnostics<cr>", { desc = "Search diagnostics" })
 map("n", "<leader>o", "<cmd>Telescope oldfiles<cr>", { desc = "Search oldfiles" })
