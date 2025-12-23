@@ -153,8 +153,6 @@ return {
 						callback = function(_)
 							-- Run init file, if it exists
 							pcall(dofile, "init.lua")
-
-							vim.cmd("Telescope find_files")
 						end,
 					}
 				}
@@ -188,7 +186,6 @@ return {
 			require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
 		end,
 	},
-	{ "sindrets/diffview.nvim" },
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -200,5 +197,9 @@ return {
 				virt_text_priority = 1000,
 			}
 		}
+	},
+	{ "tpope/vim-rhubarb" },
+	{
+		"tpope/vim-fugitive"
 	},
 }

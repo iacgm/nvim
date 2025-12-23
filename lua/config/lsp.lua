@@ -1,13 +1,12 @@
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('user_lsp_attach', { clear = true }),
 	callback = function(event)
-		local opts = { buffer = event.buf }
-		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		local opts = { buffer = event.buf, remap = false }
 
 		vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
-		vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, opts)
-		vim.keymap.set('n', '<C-r>', function() vim.lsp.buf.rename() end, opts)
-		vim.keymap.set('n', '<leader>a', function() vim.lsp.buf.code_action() end, opts)
+		vim.keymap.set('n', 'gr', "grr", opts)
+		vim.keymap.set('n', '<C-r>', "grn", opts)
+		vim.keymap.set('n', '<leader>a', "gra", opts)
 		vim.keymap.set('n', '<C-F>', function() vim.lsp.buf.format({ async = true }) end)
 		vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
 		vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)

@@ -1,7 +1,6 @@
 local map = vim.keymap.set
 
-map("t", "<C-k>", "<C-\\><C-N>", { desc = "Escape terminal mode" })
-map("t", "<C-u>", "<C-\\><C-u>", { desc = "Scroll up in terminal" })
+map("t", "<Esc>", "<C-\\><C-N>", { desc = "Escape terminal mode" })
 map({ 'i', 'v' }, 'jk', '<ESC>')
 
 vim.keymap.set('n', ',', ';')
@@ -41,6 +40,7 @@ vim.keymap.set('n', '<C-i>', '<C-i>zz')
 vim.keymap.set({ 'n', 'v' }, '<M-d>', vim.diagnostic.setqflist, { desc = 'Open diagnostics in Quickfix' })
 vim.keymap.set({ 'n', 'v' }, '<M-j>', '<cmd>cnext<CR>zz')
 vim.keymap.set({ 'n', 'v' }, '<M-k>', '<cmd>cprev<CR>zz')
+vim.keymap.set({ 'n', 'v' }, '<leader>cc', 'cclose', { desc = "Close Quickfix list" })
 
 -- Only yank to system clipboard after leader
 vim.opt.clipboard = ''
