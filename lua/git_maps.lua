@@ -1,3 +1,4 @@
+require"plugin_maps"
 local map = vim.keymap.set
 
 map("n", "gsd", "<cmd>Gitsigns toggle_deleted<cr>", { desc = "Show deleted"})
@@ -25,11 +26,30 @@ local function diff_to_commit()
 	require"gitsigns".change_base(commit)
 end
 
+local function buffer_diff()
+	local commit = actions_state.get_selected_entry().value
+	vim.cmd("Gvdiffsplit " .. commit)
+	require"gitsigns".change_base(commit)
+end
+
 local git_mappings = function(_, lmap)
 	lmap({"n", "i"}, "<cr>", diff_to_commit)
+	lmap({"n", "i"}, "<C-f>", diff_to_commit)
+	lmap({"n", "i"}, "<C-b>", buffer_diff)
 	return true
 end
 
+local buff_git_mappings = function(_, lmap)
+	lmap({"n", "i"}, "<cr>", buffer_diff)
+	lmap({"n", "i"}, "<C-f>", diff_to_commit)
+	lmap({"n", "i"}, "<C-b>", buffer_diff)
+	return true
+end
+
+map("n", "<leader>gd", function()
+	local c = Split_str('git diff --name-only', ' ')
+	require("telescope.builtin").git_files({ git_command = c })
+end, { desc = "Changed files" })
 map("n", "<leader>gh", function()
 	local c = Split_str(git_log_cmd(), ' ')
 	require("telescope.builtin").git_commits({ git_command = c, attach_mappings = git_mappings })
@@ -39,10 +59,10 @@ map("n", "<leader>gbh", function()
 	require("telescope.builtin").git_commits({ git_command = c, attach_mappings = git_mappings })
 end, { desc = "Git Buffer History" })
 map("n", "<leader>gfh", function()
-	require("telescope.builtin").git_commits({ attach_mappings = git_mappings })
+	require("telescope.builtin").git_commits({ attach_mappings = buff_git_mappings })
 end, { desc = "Git Full History" })
 map("n", "<leader>gfb", function()
-	require("telescope.builtin").git_bcommits({ attach_mappings = git_mappings })
+	require("telescope.builtin").git_bcommits({ attach_mappings = buff_git_mappings })
 end, { desc = "Git Full Buffer History" })
 
 map("n", "<leader>gc", function()

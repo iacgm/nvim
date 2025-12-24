@@ -3,13 +3,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(event)
 		local opts = { buffer = event.buf, remap = false }
 
-		vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
-		vim.keymap.set('n', 'gr', "grr", opts)
-		vim.keymap.set('n', '<C-r>', "grn", opts)
-		vim.keymap.set('n', '<leader>a', "gra", opts)
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+		vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
 		vim.keymap.set('n', '<C-F>', function() vim.lsp.buf.format({ async = true }) end)
-		vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
-		vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
+		vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+		vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 		-- Display diagnostic or additional info
 		vim.keymap.set('n', 'K', function()
 			if not vim.diagnostic.open_float() then
