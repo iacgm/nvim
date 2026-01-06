@@ -8,6 +8,9 @@ vim.keymap.set('n', ',', ';')
 -- Better Redo
 vim.keymap.set('n', 'U', '<C-r>')
 
+-- Skip to start of word, including last character
+vim.keymap.set({'n', 'v'}, 'B', 'lB')
+
 -- Move line up or down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
@@ -25,6 +28,7 @@ vim.keymap.set('v', 'x', 'j')
 
 -- X to delete
 vim.keymap.set('n', 'X', 'x')
+vim.keymap.set("v", "<c-x>", "x")
 
 -- Line wrapping
 vim.keymap.set({ 'n', 'v' }, 'j', 'gj')
@@ -47,11 +51,12 @@ vim.opt.clipboard = ''
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
 vim.keymap.set({ 'n', 'v' }, '<leader>Y', [["+Y]])
 
--- Deleting doesn't yank (X can be used instead)
+-- Deleting doesn't yank by default (X can be used instead)
 vim.keymap.set({ 'n', 'v' }, 'd', [["_d]])
 vim.keymap.set({ 'n', }, 'dd', [["_dd]])
+vim.keymap.set({ "n", "v" }, "yd", "d")
 
-vim.keymap.set({ 'n', 'v', 'i' }, '<C-s>', '<cmd>wa<CR>')
+vim.keymap.set({ 'n', 'v', 'i' }, '<C-s>', '<cmd>silent! wa<CR>')
 
 -- Paste-replace without copying
 vim.keymap.set('x', 'p', [["_dp]])
@@ -60,10 +65,6 @@ vim.keymap.set('x', 'P', [["_dP]])
 
 -- Projects:
 vim.keymap.set('n', 'cd', '<cmd>CdProject<CR>')
-
--- Tree
-map('n', '<C-n>', '<cmd>NvimTreeToggle<CR>', { desc = 'nvimtree toggle window' })
-map('n', '<leader>e', '<cmd>NvimTreeFocus<CR>', { desc = 'nvimtree focus window' })
 
 -- Leap
 map({ 'n', 'x', 'o' }, 'f', '<Plug>(leap)')

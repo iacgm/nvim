@@ -5,11 +5,11 @@ g.floaterm_height = 0.9
 
 local toggle_modes = {'n', 't'}
 local mappings = {
-  { toggle_modes, '<M-i>', "<cmd>wa<cr><cmd>FloatermToggle<CR>", },
-  { toggle_modes, '<M-t>', "<cmd>wa<cr><cmd>FloatermNew<CR>", },
-  { toggle_modes, '<M-n>', "<cmd>wa<cr><cmd>FloatermNext<CR>", },
-  { toggle_modes, '<M-p>', "<cmd>wa<cr><cmd>FloatermPrev<CR>", },
-  { toggle_modes, '<M-w>', "<cmd>wa<cr><cmd>FloatermKill<CR>", },
+  { toggle_modes, '<M-i>', "<cmd>silent! wa<cr><cmd>FloatermToggle<CR>", },
+  { toggle_modes, '<M-t>', "<cmd>silent! wa<cr><cmd>FloatermNew<CR>", },
+  { toggle_modes, '<M-n>', "<cmd>silent! wa<cr><cmd>FloatermNext<CR>", },
+  { toggle_modes, '<M-p>', "<cmd>silent! wa<cr><cmd>FloatermPrev<CR>", },
+  { toggle_modes, '<M-w>', "<cmd>silent! wa<cr><cmd>FloatermKill<CR>", },
 }
 local opts = { noremap = true, silent = true }
 for _, mapping in ipairs(mappings) do

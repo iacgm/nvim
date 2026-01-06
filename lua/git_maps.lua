@@ -32,10 +32,16 @@ local function buffer_diff()
 	require"gitsigns".change_base(commit)
 end
 
+local function checkout_commit()
+	local commit = actions_state.get_selected_entry().value
+	vim.cmd("G checkout " .. commit)
+end
+
 local git_mappings = function(_, lmap)
 	lmap({"n", "i"}, "<cr>", diff_to_commit)
 	lmap({"n", "i"}, "<C-f>", diff_to_commit)
 	lmap({"n", "i"}, "<C-b>", buffer_diff)
+	lmap({"n", "i"}, "<C-c>", checkout_commit)
 	return true
 end
 
@@ -43,6 +49,7 @@ local buff_git_mappings = function(_, lmap)
 	lmap({"n", "i"}, "<cr>", buffer_diff)
 	lmap({"n", "i"}, "<C-f>", diff_to_commit)
 	lmap({"n", "i"}, "<C-b>", buffer_diff)
+	lmap({"n", "i"}, "<C-c>", checkout_commit)
 	return true
 end
 
@@ -56,7 +63,7 @@ map("n", "<leader>gh", function()
 end, { desc = "Git History" })
 map("n", "<leader>gbh", function()
 	local c = Split_str(git_log_cmd(), ' ')
-	require("telescope.builtin").git_commits({ git_command = c, attach_mappings = git_mappings })
+	require("telescope.builtin").git_bcommits({ git_command = c, attach_mappings = git_mappings })
 end, { desc = "Git Buffer History" })
 map("n", "<leader>gfh", function()
 	require("telescope.builtin").git_commits({ attach_mappings = buff_git_mappings })
@@ -65,6 +72,6 @@ map("n", "<leader>gfb", function()
 	require("telescope.builtin").git_bcommits({ attach_mappings = buff_git_mappings })
 end, { desc = "Git Full Buffer History" })
 
-map("n", "<leader>gc", function()
-	require("telescope.builtin").git_branches({ show_remote_tracking_branches = false })
+map("n", "<leader>gb", function()
+	require("telescope.builtin").git_branches({ show_remote_tracking_branches = false, attach_mappings = git_mappings })
 end, { desc = "Search git branches" })

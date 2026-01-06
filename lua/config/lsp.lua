@@ -27,12 +27,14 @@ require('mason-lspconfig').setup({
 	},
 	handlers = {
 		function(server_name)
-			require('lspconfig')[server_name].setup({
+			---@diagnostic disable-next-line: undefined-field
+			vim.lsp.config[server_name] = {
 				capabilities = lsp_capabilities,
-			})
+			}
+      vim.lsp.enable(server_name)
 		end,
 		lua_ls = function()
-			require('lspconfig').lua_ls.setup({
+			vim.lsp.config.lua_ls = {
 				capabilities = lsp_capabilities,
 				settings = {
 					Lua = {
@@ -49,7 +51,7 @@ require('mason-lspconfig').setup({
 						}
 					}
 				}
-			})
+			}
 		end,
 	}
 })

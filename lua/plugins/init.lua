@@ -6,7 +6,7 @@ return {
 			return require "config.mason"
 		end,
 	},
-	{ "folke/lazydev.nvim",    opts = {} },
+	{ "folke/lazydev.nvim", opts = {} },
 	{
 		"mason-org/mason-lspconfig.nvim",
 	},
@@ -52,8 +52,6 @@ return {
 			require("telescope").setup(opts)
 			require("telescope").load_extension("fzf")
 		end
-
-
 	},
 	{
 		'saecki/crates.nvim',
@@ -153,6 +151,8 @@ return {
 						callback = function(_)
 							-- Run init file, if it exists
 							pcall(dofile, "init.lua")
+							---@diagnostic disable-next-line: undefined-field
+							-- vim.cmd("silent cd " .. vim.uv.cwd()) -- Otherwise, Cd-Project doesn't use local name on original file
 						end,
 					}
 				}
@@ -186,6 +186,11 @@ return {
 			require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
 		end,
 	},
+  {
+    'ThePrimeagen/harpoon',
+    branch = "harpoon2",
+    requires = {{"nvim-lua/plenary.nvim"}}
+  },
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -199,7 +204,14 @@ return {
 		}
 	},
 	{ "tpope/vim-rhubarb" },
+	{ "tpope/vim-fugitive" },
+	{ "iacgm/cargo-docview" },
 	{
-		"tpope/vim-fugitive"
+		"iacgm/docview",
+		opts = {
+			filetypes = {
+				rs = "cargo-docview"
+			}
+		}
 	},
 }

@@ -1,5 +1,4 @@
 local o = vim.opt
-local g = vim.g
 
 -- add binaries installed by mason.nvim to path
 local is_windows = vim.fn.has "win32" ~= 0
